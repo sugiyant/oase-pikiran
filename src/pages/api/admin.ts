@@ -8,7 +8,8 @@ export const POST: APIRoute = async (context) => {
     return new Response(JSON.stringify({ error: "DB not bound" }), { status: 500 });
   }
 
-  const ADMIN_SECRET = context.locals?.runtime?.env?.BASIC_AUTH_PASS || "OasePikiran_2026_Rahasia";
+  const ADMIN_SECRET = context.locals?.runtime?.env?.BASIC_AUTH_PASS;
+  if (!ADMIN_SECRET) return new Response("Unauthorized: Server misconfigured", { status: 500 });
   const hash = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(ADMIN_SECRET));
   const token = Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
   const authHeader = context.request.headers.get("Authorization");
