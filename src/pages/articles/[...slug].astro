@@ -1,0 +1,105 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { marked } from "marked";
+
+export const prerender = false;
+
+const { slug } = Astro.params;
+const db = Astro.locals?.runtime?.env?.DB;
+
+let article = null;
+
+if (db && slug) {
+  const result = await db.prepare("SELECT * FROM articles WHERE slug = ?1").bind(slug).first();
+  article = result;
+}
+
+if (!article) {
+  return Astro.redirect("/404");
+}
+
+const sanitizedContent = article.content
+  .replace(/^```markdown\s*/i, "")
+  .replace(/^```\s*/i, "")
+  .replace(/```\s*$/i, "");
+const htmlContent = marked.parse(sanitizedContent);
+---
+<BaseLayout title={`${article.title} — Oase Pikiran`} description={article.description}>
+  <article class="article">
+    <header class="article-header">
+      <a class="back" href="/">← Beranda</a>
+      <div class="article-meta-row">
+        <p class="category" style="display:inline-block; margin-bottom:0;">{article.category}</p>
+        <button id="tts-btn" class="md3-chip tts-button" onclick="window.toggleSpeech()">
+          🔊 Dengarkan Artikel
+        </button>
+      </div>
+      <h1 style="margin-top: 16px;">{article.title}</h1>
+      <p class="lead">{article.description}</p>
+    </header>
+    <div id="article-text-content" class="article-body prose" set:html={htmlContent} />
+  </article>
+
+  <script is:inline>
+    let currentUtterance = null;
+    window.toggleSpeech = function() {
+      if (!('speechSynthesis' in window)) {
+        alert("Maaf, browser Anda tidak mendukung fitur Text-to-Speech.");
+        return;
+      }
+      const btn = document.getElementById('tts-btn');
+      const contentEl = document.getElementById('article-text-content');
+      
+      if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+        currentUtterance = null;
+        btn.textContent = "🔊 Dengarkan Artikel";
+        btn.classList.remove('selected');
+        return;
+      }
+
+      const text = contentEl ? (contentEl.innerText || contentEl.textContent) : "";
+      if (!text.trim()) {
+        alert("Tidak ada teks untuk dibaca.");
+        return;
+      }
+
+      currentUtterance = new SpeechSynthesisUtterance(text);
+      currentUtterance.lang = 'id-ID';
+      currentUtterance.rate = 1.0;
+      
+      currentUtterance.onstart = () => {
+        btn.textContent = "⏹️ Berhenti";
+        btn.classList.add('selected');
+      };
+
+      currentUtterance.onend = () => {
+        currentUtterance = null;
+        btn.textContent = "🔊 Dengarkan Artikel";
+        btn.classList.remove('selected');
+      };
+      
+      currentUtterance.onerror = (e) => {
+        console.error("TTS Error:", e);
+        currentUtterance = null;
+        btn.textContent = "🔊 Dengarkan Artikel";
+        btn.classList.remove('selected');
+      };
+
+      window.speechSynthesis.speak(currentUtterance);
+    };
+  </script>
+
+  <style>
+    .article-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .tts-button {
+      cursor: pointer;
+      font-size: 0.8125rem;
+    }
+  </style>
+</BaseLayout>

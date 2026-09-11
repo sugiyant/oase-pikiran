@@ -1,0 +1,13 @@
+name = "oase-pikiran"
+pages_build_output_dir = "dist"
+compatibility_flags = ["nodejs_compat"]
+compatibility_date = "2024-09-10"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "oase-pikiran-db"
+database_id = "0507942e-8f35-4653-a8d3-33b69d6a38f2"
+
+[vars]
+BASIC_AUTH_USER = "admin"
+BASIC_AUTH_PASS = "admin"

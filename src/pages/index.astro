@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+export const prerender = false;
+
+const db = Astro.locals?.runtime?.env?.DB;
+let articles = [];
+
+if (db) {
+  const { results } = await db.prepare("SELECT * FROM articles WHERE status = 'published' ORDER BY published_at DESC").all();
+  articles = results;
+}
+---
+
+<BaseLayout title="Oase Pikiran" description="Makanan untuk pikiran.">
+  <section class="section">
+    <div class="hero">
+      <p class="eyebrow">MENTAL NUTRITION</p>
+      <h1>Makanan untuk Pikiran.</h1>
+      <p class="lead">Satu unit perspektif baru setiap hari. Saring kebisingan, tumbuhkan kejernihan dan kedamaian pikiran.</p>
+      <a href="/explore/" class="primary">Mulai Membaca →</a>
+    </div>
+  </section>
+  <section class="section">
+    <div class="section-head">
+      <h2>Bacaan Terbaru</h2>
+      <a href="/archive/">Lihat Arsip →</a>
+    </div>
+    <div class="grid">
+      {articles.map(article => (
+        <a href={`/articles/${article.slug}`} class="card">
+          <span class="category">{article.category}</span>
+          <h2>{article.title}</h2>
+          <p>{article.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

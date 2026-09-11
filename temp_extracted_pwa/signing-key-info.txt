@@ -1,0 +1,10 @@
+Keep this file and signing.keystore in a safe place. You'll need these files if you want to upload future versions of your PWA to the Google Play Store.
+
+Key store file: signing.keystore
+Key store password: vRMeTNNBC47B
+Key alias: my-key-alias
+Key password: vRMeTNNBC47B
+Signer's full name: Oase Admin
+Signer's organization: Oase Pikiran
+Signer's organizational unit: Engineering
+Signer's country code: US
