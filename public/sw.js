@@ -1,4 +1,4 @@
-const CACHE_NAME = 'oase-pikiran-v2';
+const CACHE_NAME = 'oase-pikiran-v3';
 const ASSETS = [
   '/',
   '/explore/',
@@ -32,6 +32,32 @@ self.addEventListener('activate', (event) => {
   self.claim();
 });
 
+// Helper function to match cache with trailing slash normalization
+async function matchCacheWithNormalization(request) {
+  const cache = await caches.open(CACHE_NAME);
+  
+  // 1. Try exact match
+  let response = await cache.match(request);
+  if (response) return response;
+
+  // 2. Try normalized trailing slash match
+  const url = new URL(request.url);
+  const path = url.pathname;
+  
+  if (path.startsWith('/articles/')) {
+    const cleanPath = path.endsWith('/') ? path.slice(0, -1) : path;
+    const pathsToTry = [cleanPath, cleanPath + '/'];
+    
+    for (const p of pathsToTry) {
+      const altUrl = new URL(p, url.origin).toString();
+      response = await cache.match(altUrl);
+      if (response) return response;
+    }
+  }
+
+  return null;
+}
+
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
@@ -48,8 +74,8 @@ self.addEventListener('fetch', (event) => {
           }
           return networkResponse;
         })
-        .catch(() => {
-          return caches.match(event.request);
+        .catch(async () => {
+          return await matchCacheWithNormalization(event.request);
         })
     );
     return;
@@ -96,11 +122,20 @@ self.addEventListener('message', (event) => {
           caches.open(CACHE_NAME).then(cache => {
             // Cache the JSON list
             cache.put('/api/get-articles', new Response(JSON.stringify(articles)));
-            // Cache individual article routes if they exist
+            
+            // Cache individual article routes (both with and without trailing slash)
             articles.forEach(article => {
-              const articleUrl = `/articles/${article.slug}/`;
-              fetch(articleUrl).then(res => {
-                if (res.ok) cache.put(articleUrl, res);
+              const urlNoSlash = `/articles/${article.slug}`;
+              const urlWithSlash = `/articles/${article.slug}/`;
+
+              // Prefetch without slash
+              fetch(urlNoSlash).then(res => {
+                if (res.ok) cache.put(urlNoSlash, res);
+              }).catch(() => {});
+
+              // Prefetch with slash (for complete offline redundancy)
+              fetch(urlWithSlash).then(res => {
+                if (res.ok) cache.put(urlWithSlash, res);
               }).catch(() => {});
             });
           });
