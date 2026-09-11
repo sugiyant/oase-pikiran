@@ -4,7 +4,7 @@ function key() {
 
 function model() {
   if (process.env.GEMINI_API_KEY) {
-    return "gemini-2.0-flash";
+    return "gemini-3.6-flash";
   }
   return process.env.AI_MODEL || "my9model-free"; 
 }
