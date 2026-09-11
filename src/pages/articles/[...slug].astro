@@ -27,17 +27,57 @@ const htmlContent = marked.parse(sanitizedContent);
 <BaseLayout title={`${article.title} — Oase Pikiran`} description={article.description}>
   <article class="article">
     <header class="article-header">
-      <a class="back" href="/">← Beranda</a>
+      <nav aria-label="Breadcrumb">
+        <a class="back" href="/">Beranda</a> / <a class="back" href={`/category/${article.category}`}>{article.category}</a>
+      </nav>
       <div class="article-meta-row">
         <p class="category" style="display:inline-block; margin-bottom:0;">{article.category}</p>
-        <button id="tts-btn" class="md3-chip tts-button" onclick="window.toggleSpeech()">
-          🔊 Dengarkan Artikel
-        </button>
+        <div style="display:flex; gap:8px;">
+            <button class="md3-chip" onclick="window.shareArticle()">🔗 Share</button>
+            <button id="tts-btn" class="md3-chip tts-button" onclick="window.toggleSpeech()">
+            🔊 Dengarkan Artikel
+            </button>
+        </div>
       </div>
       <h1 style="margin-top: 16px;">{article.title}</h1>
       <p class="lead">{article.description}</p>
     </header>
+    <div id="toc-container"></div>
     <div id="article-text-content" class="article-body prose" set:html={htmlContent} />
+    <footer class="article-footer">
+       {article.tags && JSON.parse(article.tags).map(tag => (
+          <a href={`/explore?tag=${tag}`} class="md3-chip">#{tag}</a>
+       ))}
+    </footer>
+
+  <script is:inline>
+    window.shareArticle = async () => {
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: document.title,
+                    url: window.location.href
+                });
+            } catch (err) { console.error('Share failed:', err); }
+        } else {
+            navigator.clipboard.writeText(window.location.href);
+            alert("Link disalin ke clipboard!");
+        }
+    };
+    // TOC generation logic
+    const headers = document.querySelectorAll('#article-text-content h2, #article-text-content h3');
+    if (headers.length > 3) {
+        const toc = document.createElement('div');
+        toc.innerHTML = '<h3>Daftar Isi</h3><ul>' + 
+            Array.from(headers).map(h => `<li><a href="#${h.id}">${h.textContent}</a></li>`).join('') + 
+            '</ul>';
+        document.getElementById('toc-container').appendChild(toc);
+    }
+    // ensure IDs for headers
+    document.querySelectorAll('#article-text-content h2, #article-text-content h3').forEach((h, i) => {
+        if (!h.id) h.id = 'heading-' + i;
+    });
+  </script>
   </article>
 
   <script is:inline>

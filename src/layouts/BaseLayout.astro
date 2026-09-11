@@ -91,6 +91,14 @@ const currentPath = Astro.url.pathname;
       </div>
     </div>
     <div class="md3-sheet-section">
+      <p class="md3-sheet-label">Font Size</p>
+      <div class="md3-chip-group">
+        <button class="md3-chip" onclick="changeFontSize(-1)">A- Kecil</button>
+        <button class="md3-chip" onclick="changeFontSize(0)">A Normal</button>
+        <button class="md3-chip" onclick="changeFontSize(1)">A+ Besar</button>
+      </div>
+    </div>
+    <div class="md3-sheet-section">
       <p class="md3-sheet-label">Font</p>
       <div class="md3-chip-group">
         <button class="md3-chip font-literata" data-font="literata" onclick="setFont('literata')">Classic</button>
@@ -112,8 +120,10 @@ const currentPath = Astro.url.pathname;
 
     const savedTheme = localStorage.getItem('oase-theme') || 'light';
     const savedFont = localStorage.getItem('oase-font') || 'literata';
+    const savedFontSize = localStorage.getItem('oase-font-size') || '0'; // '-1', '0', '1'
     document.documentElement.setAttribute('data-theme', savedTheme);
     document.documentElement.setAttribute('data-font', savedFont);
+    document.documentElement.setAttribute('data-font-size', savedFontSize);
     updateChipStates(savedTheme, savedFont);
 
     function updateChipStates(t, f) {
@@ -124,6 +134,11 @@ const currentPath = Astro.url.pathname;
         c.classList.toggle('selected', c.getAttribute('data-font') === f);
       });
     }
+
+    window.changeFontSize = (val) => {
+      document.documentElement.setAttribute('data-font-size', String(val));
+      localStorage.setItem('oase-font-size', String(val));
+    };
 
     window.setTheme = (t) => {
       document.documentElement.setAttribute('data-theme', t);
@@ -286,6 +301,12 @@ const currentPath = Astro.url.pathname;
    ============================== */
 [data-font="inter"] { font-family: 'Inter', system-ui, sans-serif; }
 [data-font="literata"] { font-family: 'Literata', Georgia, serif; }
+
+/* Font size modifiers */
+:root { --font-body-size: 1.125rem; }
+[data-font-size="-1"] { --font-body-size: 1rem; }
+[data-font-size="0"] { --font-body-size: 1.125rem; }
+[data-font-size="1"] { --font-body-size: 1.3rem; }
 
 /* ==============================
    MD3 Global
@@ -550,7 +571,7 @@ h3 {
   font-size: clamp(2rem, 5vw, 3.2rem);
 }
 .article-body {
-  font-size: 1.125rem;
+  font-size: var(--font-body-size);
   line-height: 1.9;
 }
 .article-body h2 { margin-top: 2em; }
