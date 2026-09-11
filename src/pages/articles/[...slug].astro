@@ -33,7 +33,6 @@ const htmlContent = marked.parse(sanitizedContent);
       <div class="article-meta-row">
         <p class="category" style="display:inline-block; margin-bottom:0;">{article.category}</p>
         <div style="display:flex; gap:8px;">
-            <button class="md3-chip" onclick="window.shareArticle()">🔗 Share</button>
             <button id="tts-btn" class="md3-chip tts-button" onclick="window.toggleSpeech()">
             🔊 Dengarkan Artikel
             </button>
@@ -44,6 +43,9 @@ const htmlContent = marked.parse(sanitizedContent);
     </header>
     <div id="toc-container"></div>
     <div id="article-text-content" class="article-body prose" set:html={htmlContent} />
+    <div style="margin: 2rem 0; padding: 1rem; border-top: 1px solid var(--md-outline-variant);">
+        <button class="md3-chip" onclick="window.shareArticle()">🔗 Share Artikel Ini</button>
+    </div>
     <footer class="article-footer">
        {article.tags && JSON.parse(article.tags).map(tag => (
           <a href={`/explore?tag=${tag}`} class="md3-chip">#{tag}</a>
