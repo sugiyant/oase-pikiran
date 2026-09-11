@@ -145,14 +145,20 @@ const currentPath = Astro.url.pathname;
     };
     window.goToRandom = async () => {
       try {
-        const r = await fetch('/rss.xml');
-        const t = await r.text();
-        const x = new DOMParser().parseFromString(t, "text/xml");
-        const items = Array.from(x.querySelectorAll("item"));
-        if (items.length > 0) {
-          const item = items[Math.floor(Math.random() * items.length)];
-          const link = item.querySelector("link")?.textContent || '/';
-          window.location.href = new URL(link, window.location.origin).pathname;
+        const r = await fetch('/api/get-articles');
+        const articles = await r.json();
+        if (articles && articles.length > 0) {
+          // Double Randomization: filter out current article to prevent self-redirection
+          const currentPath = window.location.pathname;
+          const candidates = articles.filter(a => `/articles/${a.slug}` !== currentPath && `/articles/${a.slug}/` !== currentPath);
+          const pool = candidates.length > 0 ? candidates : articles;
+          
+          // Secure/Double Random Indexing
+          const randomIndex = Math.floor(Math.random() * pool.length);
+          const finalIndex = (randomIndex + Math.floor(Math.random() * pool.length)) % pool.length;
+          
+          const target = pool[finalIndex];
+          window.location.href = `/articles/${target.slug}`;
         } else { window.location.href = '/'; }
       } catch(e) { window.location.href = '/'; }
     };
