@@ -169,7 +169,14 @@ const currentPath = Astro.url.pathname;
   <script is:inline>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW registration failed: ', err));
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => {
+            console.log('SW registered');
+            if (reg.active) {
+              reg.active.postMessage({ type: 'PREFETCH_ALL' });
+            }
+          })
+          .catch(err => console.log('SW registration failed: ', err));
       });
     }
   </script>
