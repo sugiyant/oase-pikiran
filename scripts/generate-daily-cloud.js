@@ -4,7 +4,7 @@ import { generateJSON, generateText } from "./lib/ai.js";
 import { slugify } from "./lib/text.js";
 import { execSync } from "node:child_process";
 
-const categories = ["mind", "islam", "philosophy", "history", "science", "technology", "world", "story", "uplift", "poetry"];
+const categories = ["mind", "islam", "philosophy", "history", "science", "technology", "world", "story", "uplift", "poetry", "sufi", "tasawuf", "aqidah", "akhlak", "fiqih"];
 
 function normalize(title) {
   const stopWords = new Set(["dan", "di", "dalam", "dari", "untuk", "yang", "the", "of", "in", "a", "an", "and", "or", "for", "on", "at", "to", "by", "as", "with", "its", "is", "are"]);

@@ -7,7 +7,7 @@ const articles = defineCollection({
     description: z.string().min(30).max(240),
     date: z.coerce.date(),
     updated: z.coerce.date().optional(),
-    category: z.enum(["mind", "islam", "philosophy", "history", "science", "technology", "world"]),
+    category: z.enum(["mind", "islam", "philosophy", "history", "science", "technology", "world", "story", "uplift", "poetry", "sufi", "tasawuf", "aqidah", "akhlak", "fiqih"]),
     tags: z.array(z.string()).max(8).default([]),
     readingTime: z.number().int().min(1).max(30),
     featured: z.boolean().default(false),

@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
-export async function getStaticPaths(){return ["mind","islam","philosophy","history","science","technology","world"].map(category=>({params:{category}}));}
+export async function getStaticPaths(){return ["mind", "islam", "philosophy", "history", "science", "technology", "world", "story", "uplift", "poetry", "sufi", "tasawuf", "aqidah", "akhlak", "fiqih"].map(category=>({params:{category}}));}
 const {category}=Astro.params;
 const articles=(await getCollection("articles")).filter(a=>a.data.status==="published"&&a.data.category===category).sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf());
 ---
