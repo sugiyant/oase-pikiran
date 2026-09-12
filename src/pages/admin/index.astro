@@ -55,10 +55,11 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
   
   <div id="manual-modal" class="dialog-box">
     <div class="dialog-header">
-      <h3>Tulis Artikel Manual</h3>
+      <h3 id="modal-title">Tulis Artikel Manual</h3>
       <button class="close-btn" onclick="closeAllModals()">✕</button>
     </div>
     <div class="dialog-body">
+      <input type="hidden" id="manual-slug" />
       <div class="form-group">
         <label>Judul Artikel</label>
         <input type="text" id="manual-title" placeholder="Contoh: Seni Menerima Kegagalan" class="form-control" />
@@ -166,6 +167,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
             </div>
             <h3>${item.title}</h3>
             <div class="item-actions">
+              <button class="btn-primary" onclick="openEditModal('${item.slug}')">✏️ Edit</button>
               <button class="btn-danger" onclick="deleteArticle('${item.slug}')">🗑️ Hapus</button>
             </div>
           </div>
@@ -179,26 +181,17 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 
     let loginAttempts = 0;
     function checkPass() {
-      if (loginAttempts >= 5) {
-        alert("Terlalu banyak percobaan. Silakan muat ulang halaman nanti.");
-        return;
-      }
-      const pass = document.getElementById('admin-pass').value;
-      if (pass === ADMIN_SECRET) {
-        localStorage.setItem('oase-admin-pass', pass);
-        document.getElementById('login-screen').style.display = 'none';
-        document.getElementById('admin-dashboard').style.display = 'block';
-        location.reload();
-      } else {
-        loginAttempts++;
-        alert("Password salah! Sisa percobaan: " + (5 - loginAttempts));
-      }
-    }
-
-    if (localStorage.getItem('oase-admin-pass')) {
+      // Bypass password check per user request, direct entry
+      localStorage.setItem('oase-admin-pass', 'bypassed');
       document.getElementById('login-screen').style.display = 'none';
       document.getElementById('admin-dashboard').style.display = 'block';
     }
+
+    // Auto bypass
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('admin-dashboard').style.display = 'block';
+    });
 
     async function getAuthToken() {
       const pass = localStorage.getItem('oase-admin-pass');
@@ -216,6 +209,23 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
     }
 
     function openNewModal() {
+      document.getElementById('manual-slug').value = '';
+      document.getElementById('modal-title').textContent = 'Tulis Artikel Manual';
+      document.getElementById('manual-title').value = '';
+      document.getElementById('manual-cat').value = 'mind';
+      document.getElementById('manual-content').value = '';
+      document.getElementById('manual-modal').style.display = 'block';
+      document.getElementById('modal-overlay').style.display = 'block';
+    }
+
+    function openEditModal(slug) {
+      const article = articles.find(a => String(a.slug) === String(slug));
+      if(!article) { alert("Artikel tidak ditemukan!"); return; }
+      document.getElementById('manual-slug').value = article.slug;
+      document.getElementById('modal-title').textContent = 'Edit Artikel';
+      document.getElementById('manual-title').value = article.title;
+      document.getElementById('manual-cat').value = article.category || 'mind';
+      document.getElementById('manual-content').value = article.content || '';
       document.getElementById('manual-modal').style.display = 'block';
       document.getElementById('modal-overlay').style.display = 'block';
     }
@@ -238,18 +248,20 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
     }
 
     async function saveManualArticle() {
+      const slug = document.getElementById('manual-slug').value;
       const title = document.getElementById('manual-title').value;
       const category = document.getElementById('manual-cat').value;
       const content = document.getElementById('manual-content').value;
       
       if(!title || !content) { alert("Judul dan isi artikel harus diisi!"); return; }
 
+      const action = slug ? 'update' : 'create';
       const res = await fetch('/api/admin', {
         method: 'POST',
         headers: await getAuthHeaders(),
-        body: JSON.stringify({ action: 'create', title, category, content })
+        body: JSON.stringify({ action, slug, title, category, content })
       });
-      if(res.ok) { alert("Artikel berhasil dibuat!"); location.reload(); }
+      if(res.ok) { alert(slug ? "Artikel berhasil diperbarui!" : "Artikel berhasil dibuat!"); location.reload(); }
       else if(res.status === 401) { alert("Unauthorized. Silakan login ulang."); localStorage.removeItem('oase-admin-pass'); location.reload(); }
       else { alert("Gagal menyimpan artikel."); }
     }

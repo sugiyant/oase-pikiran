@@ -32,6 +32,9 @@ if (db) {
           <span class="category">{article.category}</span>
           <h2>{article.title}</h2>
           <p>{article.description}</p>
+          <div class="meta" style="display:flex; justify-content:space-between; align-items:center;">
+            <span>{article.views ?? 0} pembaca</span>
+          </div>
         </a>
       ))}
     </div>

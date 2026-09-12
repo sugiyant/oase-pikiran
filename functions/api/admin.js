@@ -16,9 +16,13 @@ export async function onRequestPost({ request, env }) {
         .bind(slug)
         .run();
     } else if (action === 'create') {
-      const newSlug = title.toLowerCase().replace(/ /g, '-');
-      await db.prepare("INSERT INTO articles VALUES (?1, ?2, ?3, ?4, 'published', 10, ?5, ?5)")
+      const newSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      await db.prepare("INSERT INTO articles (slug, title, category, content, status, impact_score, created_at, published_at) VALUES (?1, ?2, ?3, ?4, 'published', 10, ?5, ?5)")
         .bind(newSlug, title, category, content, new Date().toISOString())
+        .run();
+    } else if (action === 'update') {
+      await db.prepare("UPDATE articles SET title = ?1, category = ?2, content = ?3 WHERE slug = ?4")
+        .bind(title, category, content, slug)
         .run();
     }
     return new Response(JSON.stringify({ success: true }), { headers: { 'Content-Type': 'application/json' } });

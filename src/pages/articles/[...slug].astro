@@ -31,7 +31,7 @@ const htmlContent = marked.parse(sanitizedContent);
         <a class="back" href="/">Beranda</a> / <a class="back" href={`/category/${article.category}`}>{article.category}</a>
       </nav>
       <div class="article-meta-row">
-        <p class="category" style="display:inline-block; margin-bottom:0;">{article.category}</p>
+        <p class="category" style="display:inline-block; margin-bottom:0;">{article.category} {article.views !== undefined ? `· 👁️ ${article.views} pembaca` : ""}</p>
         <div style="display:flex; gap:8px;">
             <button id="tts-btn" class="md3-chip tts-button" onclick="window.toggleSpeech()">
             🔊 Dengarkan Artikel
@@ -82,7 +82,78 @@ const htmlContent = marked.parse(sanitizedContent);
   </script>
   </article>
 
+  <style>
+    :root {
+      --article-font-family: serif;
+      --article-line-height: 1.6;
+      --article-letter-spacing: normal;
+    }
+    .mood-calm { --article-font-family: 'Georgia', serif; --article-line-height: 1.8; --article-letter-spacing: 0.02em; }
+    .mood-focus { --article-font-family: 'Inter', sans-serif; --article-line-height: 1.5; --article-letter-spacing: normal; }
+    .mood-reflective { --article-font-family: 'Times New Roman', serif; --article-line-height: 2.0; --article-letter-spacing: 0.05em; }
+    
+    .article-body {
+      font-family: var(--article-font-family);
+      line-height: var(--article-line-height);
+      letter-spacing: var(--article-letter-spacing);
+      transition: all 0.3s ease;
+    }
+    
+    .mood-switcher-bottom {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      gap: 10px;
+    }
+  </style>
+
+  <div class="mood-switcher-bottom">
+    <button class="md3-chip" onclick="setMood('mood-calm')">🌿 Tenang</button>
+    <button class="md3-chip" onclick="setMood('mood-focus')">⚡ Fokus</button>
+    <button class="md3-chip" onclick="setMood('mood-reflective')">🕊️ Reflektif</button>
+  </div>
+
   <script is:inline>
+    // View tracking increment
+    (async () => {
+      const slug = window.location.pathname.split('/').filter(Boolean).pop();
+      const sessionKey = `viewed_${slug}`;
+      if (slug && !sessionStorage.getItem(sessionKey)) {
+        try {
+          const res = await fetch('/api/view', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ slug })
+          });
+          if (res.ok) {
+            sessionStorage.setItem(sessionKey, 'true');
+          }
+        } catch (e) {
+          console.error('Failed to record view:', e);
+        }
+      }
+    })();
+    
+    window.setMood = function(moodClass) {
+      const body = document.getElementById('article-text-content');
+      if (body) {
+        body.className = 'article-body prose ' + moodClass;
+        localStorage.setItem('oase-mood', moodClass);
+      }
+    };
+    
+    // Wrap to avoid re-declaration
+    {
+      const slugSavedMood = localStorage.getItem('oase-mood');
+      if (slugSavedMood) {
+        document.addEventListener('DOMContentLoaded', () => {
+          window.setMood(slugSavedMood);
+        });
+      }
+    }
+
     let currentUtterance = null;
     window.toggleSpeech = function() {
       if (!('speechSynthesis' in window)) {

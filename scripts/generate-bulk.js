@@ -99,6 +99,14 @@ async function run() {
       console.log(`Writing article: "${idea.title}"...`);
       const article = await generateText(`Write a "Mental Nutrition" article in Bahasa Indonesia. Title: ${idea.title}. Category: ${cat}. Angle: ${idea.angle}. Length: 750-900 words. Use Markdown. Reflective question at the end.`, { temperature: .7 });
 
+      // QUALITY GATE check
+      const review = await generateJSON(`Review article against: factuality, depth, constructive_impact, and pure Indonesian language (no foreign diacritics/words). Return JSON: { publish: bool, score: 0-10, reason: string }. ARTICLE: ${article}`);
+
+      if (!review.publish || review.score < 8) {
+        console.log(`✗ [REJECTED by Quality Gate] Score: ${review.score}/10, Reason: ${review.reason}`);
+        continue;
+      }
+
       const now = new Date().toISOString();
       const escapedTitle = idea.title.replace(/'/g, "''");
       const escapedContent = article.replace(/'/g, "''");

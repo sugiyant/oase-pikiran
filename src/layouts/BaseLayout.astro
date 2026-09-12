@@ -105,6 +105,14 @@ const currentPath = Astro.url.pathname;
         <button class="md3-chip font-inter" data-font="inter" onclick="setFont('inter')">Modern</button>
       </div>
     </div>
+    <div class="md3-sheet-section">
+      <p class="md3-sheet-label">Suasana Hati (Mood)</p>
+      <div class="md3-chip-group">
+        <button class="md3-chip" data-mood="tenang" onclick="setMood('tenang')">🌿 Tenang</button>
+        <button class="md3-chip" data-mood="fokus" onclick="setMood('fokus')">⚡ Fokus</button>
+        <button class="md3-chip" data-mood="reflektif" onclick="setMood('reflektif')">🕊️ Reflektif</button>
+      </div>
+    </div>
     <button class="md3-sheet-close" onclick="toggleSheet()">Tutup</button>
   </div>
 
@@ -121,17 +129,22 @@ const currentPath = Astro.url.pathname;
     const savedTheme = localStorage.getItem('oase-theme') || 'light';
     const savedFont = localStorage.getItem('oase-font') || 'literata';
     const savedFontSize = localStorage.getItem('oase-font-size') || '0'; // '-1', '0', '1'
+    const savedMood = localStorage.getItem('oase-mood') || 'tenang';
     document.documentElement.setAttribute('data-theme', savedTheme);
     document.documentElement.setAttribute('data-font', savedFont);
     document.documentElement.setAttribute('data-font-size', savedFontSize);
-    updateChipStates(savedTheme, savedFont);
+    document.documentElement.setAttribute('data-mood', savedMood);
+    updateChipStates(savedTheme, savedFont, savedMood);
 
-    function updateChipStates(t, f) {
-      document.querySelectorAll('[data-theme]').forEach(c => {
+    function updateChipStates(t, f, m) {
+      document.querySelectorAll('button[data-theme]').forEach(c => {
         c.classList.toggle('selected', c.getAttribute('data-theme') === t);
       });
-      document.querySelectorAll('[data-font]').forEach(c => {
+      document.querySelectorAll('button[data-font]').forEach(c => {
         c.classList.toggle('selected', c.getAttribute('data-font') === f);
+      });
+      document.querySelectorAll('button[data-mood]').forEach(c => {
+        c.classList.toggle('selected', c.getAttribute('data-mood') === m);
       });
     }
 
@@ -143,15 +156,22 @@ const currentPath = Astro.url.pathname;
     window.setTheme = (t) => {
       document.documentElement.setAttribute('data-theme', t);
       localStorage.setItem('oase-theme', t);
-      document.querySelectorAll('[data-theme]').forEach(c => {
+      document.querySelectorAll('button[data-theme]').forEach(c => {
         c.classList.toggle('selected', c.getAttribute('data-theme') === t);
       });
     };
     window.setFont = (f) => {
       document.documentElement.setAttribute('data-font', f);
       localStorage.setItem('oase-font', f);
-      document.querySelectorAll('[data-font]').forEach(c => {
+      document.querySelectorAll('button[data-font]').forEach(c => {
         c.classList.toggle('selected', c.getAttribute('data-font') === f);
+      });
+    };
+    window.setMood = (m) => {
+      document.documentElement.setAttribute('data-mood', m);
+      localStorage.setItem('oase-mood', m);
+      document.querySelectorAll('button[data-mood]').forEach(c => {
+        c.classList.toggle('selected', c.getAttribute('data-mood') === m);
       });
     };
     window.toggleSheet = () => {
@@ -307,6 +327,17 @@ const currentPath = Astro.url.pathname;
 [data-font-size="-1"] { --font-body-size: 1rem; }
 [data-font-size="0"] { --font-body-size: 1.125rem; }
 [data-font-size="1"] { --font-body-size: 1.3rem; }
+
+/* ==============================
+   Mood Presets
+   ============================== */
+/* ponytail: mood affects global body spacing/typography feel and article body specifics */
+[data-mood="tenang"] body { letter-spacing: 0.02em; word-spacing: 0.05em; }
+[data-mood="tenang"] .article-body p { margin-bottom: 1.4em; }
+[data-mood="fokus"] body { letter-spacing: 0; word-spacing: 0; line-height: 1.45; }
+[data-mood="fokus"] .article-body p { margin-bottom: 1em; }
+[data-mood="reflektif"] body { letter-spacing: 0.01em; word-spacing: 0.03em; line-height: 1.7; font-style: italic; }
+[data-mood="reflektif"] .article-body p { margin-bottom: 1.5em; }
 
 /* ==============================
    MD3 Global

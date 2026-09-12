@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS articles (
   title TEXT NOT NULL,
   description TEXT,
   content TEXT NOT NULL,
-  category TEXT NOT NULL CHECK(category IN ('mind','islam','philosophy','history','science','technology','world')),
+  category TEXT NOT NULL CHECK(category IN ('mind','islam','philosophy','history','science','technology','world','story','uplift','poetry','sufi','tasawuf','aqidah','akhlak','fiqih')),
   tags TEXT DEFAULT '[]',
   reading_time INTEGER DEFAULT 5,
   featured INTEGER DEFAULT 0,
@@ -19,7 +19,8 @@ CREATE TABLE IF NOT EXISTS articles (
   review_notes TEXT DEFAULT '',
   created_at TEXT DEFAULT (datetime('now')),
   updated_at TEXT DEFAULT (datetime('now')),
-  published_at TEXT
+  published_at TEXT,
+  views INTEGER DEFAULT 0
 );
 
 CREATE INDEX IF NOT EXISTS idx_articles_status ON articles(status);

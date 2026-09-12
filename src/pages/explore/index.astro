@@ -41,6 +41,15 @@ const categoryLabels = {
   <!-- Horizontal Scrolling Category Selector for Quick Jump -->
   <div class="scroll-chips-wrapper">
     <div class="scroll-chips">
+      <button class="md3-chip mood-filter-btn selected" onclick="filterMood('all')">🌟 Semua Suasana</button>
+      <button class="md3-chip mood-filter-btn" onclick="filterMood('ketenangan')">🌿 Ketenangan</button>
+      <button class="md3-chip mood-filter-btn" onclick="filterMood('analitis')">⚡ Analitis</button>
+      <button class="md3-chip mood-filter-btn" onclick="filterMood('hikmah')">🕌 Hikmah & Sejarah</button>
+    </div>
+  </div>
+
+  <div class="scroll-chips-wrapper" style="margin-top: -12px;">
+    <div class="scroll-chips">
       {categories.map(cat => {
         const count = allArticles.filter(a => a.category === cat).length;
         return (
@@ -233,3 +242,29 @@ const categoryLabels = {
     }
   }
 </style>
+
+<script is:inline>
+  const moodGroups = {
+    ketenangan: ["mind", "sufi", "tasawuf", "poetry", "uplift"],
+    analitis: ["science", "technology", "philosophy"],
+    hikmah: ["islam", "history", "aqidah", "akhlak", "fiqih", "world"]
+  };
+
+  window.filterMood = (mood) => {
+    document.querySelectorAll('.mood-filter-btn').forEach(btn => {
+      btn.classList.remove('selected');
+    });
+    event.currentTarget.classList.add('selected');
+
+    const blocks = document.querySelectorAll('.category-block');
+    blocks.forEach(block => {
+      const catId = block.id.replace('cat-', '');
+      if (mood === 'all') {
+        block.style.display = 'block';
+      } else {
+        const allowed = moodGroups[mood] || [];
+        block.style.display = allowed.includes(catId) ? 'block' : 'none';
+      }
+    });
+  };
+</script>

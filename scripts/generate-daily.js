@@ -9,7 +9,7 @@ const dbPath = path.join(root, "articles.json"); // Fallback simple DB for dev
 await fs.mkdir(rejectedDir,{recursive:true});
 
 const today=new Date().toISOString().slice(0,10);
-const categories=["mind","islam","philosophy","history","science","technology","world"];
+const categories=["mind","islam","philosophy","history","science","technology","world","story","uplift","poetry","sufi","tasawuf","aqidah","akhlak","fiqih"];
 
 const ideas=await generateJSON(`
 Generate 5 candidate "Mental Nutrition" articles for ${today}.

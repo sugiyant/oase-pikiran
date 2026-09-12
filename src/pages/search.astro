@@ -2,5 +2,28 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 <BaseLayout title="Search — Reader" description="Search the Reader library.">
-<section class="section"><a class="back" href="/">← Reader</a><p class="eyebrow">LIBRARY</p><h1>Find something worth reading.</h1></section>
+<section class="section">
+  <a class="back" href="/">← Reader</a>
+  <p class="eyebrow">LIBRARY</p>
+  <h1>Find something worth reading.</h1>
+  
+  <div id="search" style="margin-top: 2rem;"></div>
+</section>
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    // Dynamically load pagefind UI if available or fallback to custom simple search
+    const script = document.createElement('script');
+    script.src = '/pagefind/pagefind-ui.js';
+    script.onload = () => {
+      new PagefindUI({ element: "#search", showSubResults: true, resetStyles: false });
+    };
+    script.onerror = () => {
+      document.getElementById('search').innerHTML = '<p>Search index loading or unavailable. Please use browser search (Ctrl+F).</p>';
+    };
+    document.head.appendChild(script);
+  });
+</script>
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
 </BaseLayout>
