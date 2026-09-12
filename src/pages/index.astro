@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import quotesData from "../data/quotes.json";
 
 export const prerender = false;
 
@@ -10,17 +11,114 @@ if (db) {
   const { results } = await db.prepare("SELECT * FROM articles WHERE status = 'published' ORDER BY published_at DESC").all();
   articles = results;
 }
+
+const quotes = quotesData.quotes;
 ---
 
 <BaseLayout title="Oase Pikiran" description="Makanan untuk pikiran.">
   <section class="section">
-    <div class="hero">
+    <div class="hero" id="hero">
       <p class="eyebrow">MENTAL NUTRITION</p>
       <h1>Makanan untuk Pikiran.</h1>
       <p class="lead">Satu unit perspektif baru setiap hari. Saring kebisingan, tumbuhkan kejernihan dan kedamaian pikiran.</p>
       <a href="/explore/" class="primary">Mulai Membaca →</a>
     </div>
   </section>
+
+  <section class="section daily-quote-section" id="daily-quote-section">
+    <p class="eyebrow" style="margin-bottom: 24px;">✦ SEKILAS HARI INI</p>
+    <blockquote class="daily-quote" id="daily-quote-text"></blockquote>
+    <p class="daily-quote-attribution">— Oase Pikiran</p>
+    <a href="/explore/" class="daily-quote-link">Baca satu menit →</a>
+  </section>
+
+  <script is:inline define:vars={{ quotes }}>
+  (function() {
+    function getDailyQuoteIndex(dateStr) {
+      var hash = 0;
+      for (var i = 0; i < dateStr.length; i++) {
+        hash = ((hash << 5) - hash) + dateStr.charCodeAt(i);
+        hash |= 0;
+      }
+      return Math.abs(hash) % quotes.length;
+    }
+
+    function getDailyQuote() {
+      var now = new Date();
+      var year = now.getFullYear();
+      var month = now.getMonth() + 1;
+      var day = now.getDate();
+      var dateStr = year + "-" + month + "-" + day;
+      return quotes[getDailyQuoteIndex(dateStr)].text;
+    }
+
+    function getTimeTheme() {
+      var hour = new Date().getHours();
+      if (hour >= 5 && hour < 11) return "morning";
+      if (hour >= 11 && hour < 16) return "day";
+      if (hour >= 16 && hour < 19) return "evening";
+      return "night";
+    }
+
+    var hero = document.getElementById("hero");
+    if (hero) {
+      hero.setAttribute("data-time", getTimeTheme());
+    }
+
+    var quoteText = document.getElementById("daily-quote-text");
+    if (quoteText) {
+      quoteText.textContent = getDailyQuote();
+    }
+  })();
+  </script>
+
+  <style>
+    .daily-quote-section {
+      text-align: center;
+      padding: 64px 32px;
+      max-width: 800px;
+      margin: 0 auto;
+      border-top: 1px solid var(--md-outline-variant);
+    }
+
+    .daily-quote {
+      font-size: 1.75rem;
+      font-weight: 500;
+      line-height: 1.4;
+      margin: 0 0 16px;
+      color: var(--md-on-surface);
+      font-style: italic;
+      letter-spacing: -0.01em;
+    }
+
+    .daily-quote-attribution {
+      font-size: 0.875rem;
+      color: var(--md-on-surface-variant);
+      margin: 0 0 32px;
+      letter-spacing: 0.02em;
+    }
+
+    .daily-quote-link {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--md-primary);
+      transition: opacity 0.2s;
+    }
+
+    .daily-quote-link:hover {
+      opacity: 0.8;
+    }
+
+    @media (max-width: 768px) {
+      .daily-quote-section {
+        padding: 40px 20px;
+      }
+      .daily-quote {
+        font-size: 1.35rem;
+      }
+    }
+  </style>
+
   <section class="section">
     <div class="section-head">
       <h2>Bacaan Terbaru</h2>

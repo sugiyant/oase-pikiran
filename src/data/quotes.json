@@ -1,0 +1,1009 @@
+{
+  "name": "Oase Pikiran — 200 Kutipan Harian",
+  "version": 1,
+  "language": "id-ID",
+  "description": "Kumpulan 200 kutipan reflektif original untuk fitur “Sekilas Hari Ini”.",
+  "usage": "Gunakan satu kutipan secara deterministic berdasarkan tanggal lokal user. Jangan gunakan Math.random() setiap render.",
+  "quotes": [
+    {
+      "id": 1,
+      "text": "Pelan bukan berarti tertinggal.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 2,
+      "text": "Tidak semua hal harus segera selesai.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 3,
+      "text": "Ketenangan dimulai ketika kita berhenti memaksa semuanya terjadi sekaligus.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 4,
+      "text": "Ada hari-hari ketika bertahan saja sudah merupakan keberanian.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 5,
+      "text": "Tidak semua yang mendesak itu penting.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 6,
+      "text": "Kadang kita hanya perlu berhenti sejenak agar dapat melihat lebih jernih.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 7,
+      "text": "Kita tidak harus memahami semuanya hari ini.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 8,
+      "text": "Istirahat bukan berhenti; kadang ia adalah bagian dari perjalanan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 9,
+      "text": "Ada hal yang menjadi lebih jelas setelah kita berhenti memaksanya.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 10,
+      "text": "Yang tenang bukan selalu yang mudah, tetapi yang sudah kita terima.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 11,
+      "text": "Pikiran juga perlu ruang untuk bernapas.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 12,
+      "text": "Hari yang biasa pun layak dijalani dengan penuh perhatian.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 13,
+      "text": "Kita sering mencari jawaban ketika yang dibutuhkan sebenarnya adalah jeda.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 14,
+      "text": "Tidak semua pintu yang tertutup adalah kehilangan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 15,
+      "text": "Sederhana bukan berarti sedikit; sering kali ia berarti cukup.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 16,
+      "text": "Ada kekuatan dalam memilih untuk tidak bereaksi.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 17,
+      "text": "Kejernihan datang ketika suara yang paling keras tidak lagi menentukan arah.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 18,
+      "text": "Kita boleh berjalan lambat selama tetap berjalan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 19,
+      "text": "Tidak setiap pikiran harus dipercaya.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 20,
+      "text": "Tenanglah; tidak semua kemungkinan harus dipikirkan sekaligus.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 21,
+      "text": "Kadang yang perlu ditata bukan hidup, melainkan cara kita memandangnya.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 22,
+      "text": "Hari ini tidak meminta kesempurnaan, hanya kehadiran.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 23,
+      "text": "Apa yang kita abaikan dalam diam sering kembali mengetuk dalam bentuk lelah.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 24,
+      "text": "Jangan biarkan hal yang belum terjadi menghabiskan tenaga hari ini.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 25,
+      "text": "Ada hal yang tidak perlu dilawan agar akhirnya bisa dilepaskan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 26,
+      "text": "Kita tumbuh bukan hanya ketika berhasil, tetapi juga ketika belajar menerima.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 27,
+      "text": "Ruang kosong tidak selalu berarti kurang; kadang ia memberi tempat bagi yang penting.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 28,
+      "text": "Mungkin kamu tidak kehilangan arah; mungkin kamu sedang menemukan arah yang baru.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 29,
+      "text": "Pikiran yang jernih tidak lahir dari terburu-buru.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 30,
+      "text": "Tidak semua pertanyaan harus dijawab sekarang.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 31,
+      "text": "Keheningan sering mengatakan sesuatu yang tidak mampu dijelaskan oleh banyak kata.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 32,
+      "text": "Kita bisa peduli tanpa harus memikul semuanya.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 33,
+      "text": "Jangan mengukur hari yang berat dengan standar hari yang ringan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 34,
+      "text": "Ada perasaan yang cukup dirasakan tanpa harus segera diberi nama.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 35,
+      "text": "Yang bisa kamu kendalikan hari ini sering kali lebih kecil, dan justru lebih berarti.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 36,
+      "text": "Satu langkah kecil tetap membawa kita ke tempat yang baru.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 37,
+      "text": "Bukan semua yang cepat itu maju.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 38,
+      "text": "Kadang melepaskan adalah bentuk paling lembut dari menjaga diri.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 39,
+      "text": "Kamu tidak harus terburu-buru menjadi versi terbaikmu.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 40,
+      "text": "Ada kebijaksanaan dalam mengetahui kapan harus berhenti.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 41,
+      "text": "Kesibukan tidak selalu berarti kehidupan sedang berjalan dengan baik.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 42,
+      "text": "Perhatikan apa yang membuat pikiranmu terasa lapang.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 43,
+      "text": "Tidak apa-apa jika hari ini hanya cukup.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 44,
+      "text": "Kita sering meminta kepastian dari hidup yang memang sedang mengajarkan keluwesan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 45,
+      "text": "Hal kecil yang dilakukan dengan sadar sering lebih bermakna daripada banyak hal yang dilakukan tergesa-gesa.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 46,
+      "text": "Jeda bukan musuh produktivitas; ia bisa menjadi ruang untuk pulih.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 47,
+      "text": "Tidak semua kehilangan harus segera digantikan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 48,
+      "text": "Yang tenang belum tentu kosong; bisa jadi penuh dengan pengertian.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 49,
+      "text": "Jangan jadikan satu hari buruk sebagai ukuran seluruh hidupmu.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 50,
+      "text": "Ada pagi yang tidak langsung cerah, tetapi tetap membawa kemungkinan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 51,
+      "text": "Malam bukan akhir dari segalanya; kadang ia hanya meminta kita beristirahat.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 52,
+      "text": "Kita tidak selalu perlu jalan yang lebih cepat; kadang kita perlu jalan yang lebih jelas.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 53,
+      "text": "Perasaan datang dan pergi; tidak semuanya harus dijadikan keputusan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 54,
+      "text": "Yang kita butuhkan kadang bukan tambahan jawaban, tetapi pengurangan kebisingan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 55,
+      "text": "Belajar berkata cukup juga merupakan bentuk pertumbuhan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 56,
+      "text": "Hidup tidak selalu perlu dipecahkan; sebagian hanya perlu dijalani.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 57,
+      "text": "Jangan memaksa bunga mekar dengan menarik kelopaknya.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 58,
+      "text": "Ada perubahan yang dimulai dari keputusan sederhana untuk berhenti mengejar yang tidak perlu.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 59,
+      "text": "Kita boleh mengubah pikiran tanpa menganggap diri kita gagal.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 60,
+      "text": "Ketika semuanya terasa terlalu banyak, kembali ke satu hal yang bisa dilakukan sekarang.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 61,
+      "text": "Kesunyian yang nyaman sering lebih berharga daripada keramaian yang melelahkan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 62,
+      "text": "Tidak semua jarak berarti menjauh; kadang jarak membuat kita melihat dengan lebih utuh.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 63,
+      "text": "Jangan terlalu cepat menghakimi proses yang belum selesai.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 64,
+      "text": "Ada hari untuk berlari, ada hari untuk berjalan, dan ada hari untuk duduk sejenak.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 65,
+      "text": "Menerima keadaan bukan berarti menyerah kepadanya.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 66,
+      "text": "Kita tidak harus membawa semua hal ke masa depan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 67,
+      "text": "Yang sudah berlalu boleh menjadi pelajaran tanpa terus menjadi beban.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 68,
+      "text": "Jangan biarkan kecemasan tentang esok mencuri ketenangan yang tersedia hari ini.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 69,
+      "text": "Kehidupan yang berarti tidak selalu terlihat sibuk.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 70,
+      "text": "Ada ketenangan yang muncul ketika kita berhenti menjelaskan diri kepada semua orang.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 71,
+      "text": "Tidak semua yang hilang perlu dicari kembali.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 72,
+      "text": "Kadang batas yang sehat terasa seperti jarak, padahal ia adalah bentuk perhatian.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 73,
+      "text": "Kamu boleh mulai lagi tanpa menghapus semua yang pernah kamu lalui.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 74,
+      "text": "Kegagalan tidak selalu meminta kita berhenti; kadang ia meminta kita mengubah cara.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 75,
+      "text": "Yang lembut bukan berarti lemah.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 76,
+      "text": "Pikiran yang penuh perlu tempat untuk menurunkan barang bawaannya.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 77,
+      "text": "Satu keputusan yang jernih lebih berharga daripada sepuluh keputusan yang terburu-buru.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 78,
+      "text": "Jangan menukar kedamaian dengan kebutuhan untuk selalu benar.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 79,
+      "text": "Ada hal yang baru terasa ringan setelah kita berhenti membawanya sendirian.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 80,
+      "text": "Tidak semua kesempatan adalah undangan yang harus diterima.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 81,
+      "text": "Kadang keberanian berbentuk istirahat.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 82,
+      "text": "Apa yang cukup untuk hari ini mungkin tidak perlu ditambah.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 83,
+      "text": "Kita bisa mencintai sesuatu tanpa harus memilikinya selamanya.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 84,
+      "text": "Ada kebahagiaan yang tidak bersuara keras.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 85,
+      "text": "Perhatikan hal-hal yang membuatmu kembali menjadi dirimu sendiri.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 86,
+      "text": "Tidak semua jalan memutar adalah kesalahan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 87,
+      "text": "Pikiran membutuhkan jeda sebagaimana tubuh membutuhkan tidur.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 88,
+      "text": "Yang penting tidak selalu yang paling terlihat.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 89,
+      "text": "Jangan jadikan perbandingan sebagai kompas.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 90,
+      "text": "Kita tumbuh saat belajar membedakan mana yang perlu diperbaiki dan mana yang perlu diterima.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 91,
+      "text": "Sebuah hari tidak menjadi sia-sia hanya karena tidak menghasilkan sesuatu yang besar.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 92,
+      "text": "Kadang kita sudah cukup jauh; hanya saja kita lupa menoleh ke belakang.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 93,
+      "text": "Ada keindahan dalam hidup yang tidak perlu dipamerkan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 94,
+      "text": "Jangan memaksa diri menjadi kuat setiap saat.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 95,
+      "text": "Ketenangan bukan hadiah setelah semua masalah selesai; ia bisa menjadi cara menghadapi masalah.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 96,
+      "text": "Mungkin yang perlu hilang bukan masalahnya, melainkan tuntutan bahwa semuanya harus sempurna.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 97,
+      "text": "Tidak setiap rasa tidak nyaman berarti kita berada di jalan yang salah.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 98,
+      "text": "Ada masa untuk mengumpulkan, ada masa untuk melepaskan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 99,
+      "text": "Kita boleh berubah arah setelah melihat lebih banyak hal.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 100,
+      "text": "Apa yang tidak bisa kita ubah tetap bisa kita hadapi dengan cara yang baru.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 101,
+      "text": "Simpan tenaga untuk hal-hal yang benar-benar penting.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 102,
+      "text": "Ada jawaban yang tumbuh perlahan, seperti cahaya pagi.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 103,
+      "text": "Kita tidak harus terlihat baik-baik saja agar tetap berharga.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 104,
+      "text": "Jangan menganggap jeda sebagai kemunduran.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 105,
+      "text": "Hal-hal yang sederhana sering menyelamatkan hari yang rumit.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 106,
+      "text": "Tidak perlu menunggu semuanya tenang untuk mengambil satu napas panjang.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 107,
+      "text": "Perjalanan menjadi lebih ringan ketika kita berhenti membawa semua penilaian orang.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 108,
+      "text": "Ada kelegaan dalam mengakui, “Aku belum tahu.”",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 109,
+      "text": "Kita tidak perlu menyelesaikan masa depan malam ini.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 110,
+      "text": "Hari ini punya cukup urusannya sendiri.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 111,
+      "text": "Yang kita ulang dalam pikiran bisa terasa lebih besar daripada kenyataannya.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 112,
+      "text": "Cobalah hadir sebelum mencoba mengendalikan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 113,
+      "text": "Ada keputusan yang lebih baik dibuat setelah tidur cukup.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 114,
+      "text": "Kesabaran bukan pasif; ia memberi waktu bagi sesuatu untuk menjadi jelas.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 115,
+      "text": "Jangan ukur nilai dirimu dari kecepatan orang lain.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 116,
+      "text": "Bukan semua pintu perlu dibuka; beberapa memang mengajarkan kita untuk berhenti mengetuk.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 117,
+      "text": "Terkadang arah yang benar terasa sepi karena tidak banyak orang berjalan di sana.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 118,
+      "text": "Ada hal yang hanya bisa dipahami setelah kita berhenti mengejar penjelasan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 119,
+      "text": "Kebiasaan kecil membentuk suasana besar dalam hidup.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 120,
+      "text": "Apa yang kamu beri perhatian akan tumbuh di dalam pikiranmu.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 121,
+      "text": "Kurangi kebisingan yang tidak perlu, dan mungkin kamu akan mendengar dirimu sendiri.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 122,
+      "text": "Tidak semua hari harus produktif untuk tetap berarti.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 123,
+      "text": "Beri dirimu kesempatan untuk menjadi manusia, bukan mesin.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 124,
+      "text": "Kita sering ingin perubahan besar, padahal pintunya mungkin hanya sebuah kebiasaan kecil.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 125,
+      "text": "Yang membuat lelah kadang bukan pekerjaan, tetapi perlawanan batin terhadap pekerjaan itu.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 126,
+      "text": "Ada kedamaian ketika kita berhenti meminta semua orang memahami kita.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 127,
+      "text": "Menerima batas diri adalah awal dari menggunakan tenaga dengan bijak.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 128,
+      "text": "Jangan abaikan hal-hal kecil yang membuat hari terasa layak.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 129,
+      "text": "Pikiran yang sehat juga tahu kapan harus berhenti mencari.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 130,
+      "text": "Sebuah napas sadar bisa menjadi awal dari keputusan yang lebih baik.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 131,
+      "text": "Tidak ada keharusan untuk segera memiliki semua jawabannya.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 132,
+      "text": "Kita boleh menikmati sesuatu tanpa menjadikannya pencapaian.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 133,
+      "text": "Jangan ubah kesalahan menjadi identitas.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 134,
+      "text": "Yang hari ini terasa besar mungkin besok hanya menjadi satu paragraf dalam cerita.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 135,
+      "text": "Berhenti sejenak tidak membuat waktu berhenti; ia hanya membuatmu kembali hadir.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 136,
+      "text": "Kadang hidup membaik bukan karena sesuatu bertambah, tetapi karena sesuatu dilepaskan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 137,
+      "text": "Ada banyak hal yang bisa kita syukuri tanpa harus memiliki hidup yang sempurna.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 138,
+      "text": "Jangan biarkan satu komentar menentukan cara kamu melihat dirimu sepanjang hari.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 139,
+      "text": "Keheningan memberi kesempatan bagi pikiran untuk menyusun ulang dirinya.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 140,
+      "text": "Tidak semua hal layak mendapat energimu.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 141,
+      "text": "Kamu boleh menjaga jarak dari sesuatu yang terus membuat batinmu sempit.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 142,
+      "text": "Pertumbuhan tidak selalu terasa seperti kemajuan; kadang ia terasa seperti kebingungan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 143,
+      "text": "Mungkin kamu tidak membutuhkan lebih banyak motivasi, hanya lebih sedikit tekanan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 144,
+      "text": "Tidak apa-apa untuk mengubah rencana ketika kamu mendapatkan pemahaman baru.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 145,
+      "text": "Yang konsisten sering mengalahkan yang spektakuler tetapi sebentar.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 146,
+      "text": "Jangan remehkan satu kebiasaan baik yang dilakukan setiap hari.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 147,
+      "text": "Kita tidak harus memenangkan setiap percakapan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 148,
+      "text": "Ada kebebasan ketika kita tidak lagi membutuhkan persetujuan untuk setiap keputusan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 149,
+      "text": "Pilih apa yang memperluas pikiran, bukan hanya apa yang mengisi waktu.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 150,
+      "text": "Kadang jawaban terbaik adalah tidur, berjalan, lalu kembali melihatnya besok.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 151,
+      "text": "Hari yang pelan masih bisa menjadi hari yang baik.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 152,
+      "text": "Ada ketenangan dalam mengetahui bahwa beberapa hal memang berada di luar kendali.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 153,
+      "text": "Jangan membangun kesimpulan dari satu momen.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 154,
+      "text": "Sesuatu yang berakhir tidak selalu berarti sesuatu itu gagal.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 155,
+      "text": "Kita bisa menghormati masa lalu tanpa tinggal di dalamnya.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 156,
+      "text": "Berikan ruang bagi pikiran untuk berubah pikiran.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 157,
+      "text": "Tidak semua yang terasa mendesak membutuhkan tindakan segera.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 158,
+      "text": "Yang kamu butuhkan mungkin bukan tujuan baru, tetapi perhatian yang lebih utuh pada tujuan yang sudah ada.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 159,
+      "text": "Ada saat ketika mengatakan tidak adalah cara mengatakan ya kepada hidup yang lebih lapang.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 160,
+      "text": "Jangan terlalu keras kepada dirimu yang sedang belajar.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 161,
+      "text": "Kita sering memerlukan lebih banyak belas kasih daripada nasihat.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 162,
+      "text": "Tidak semua kesunyian harus diisi.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 163,
+      "text": "Yang sederhana dapat menjadi sangat dalam ketika kita benar-benar hadir.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 164,
+      "text": "Hari esok belum terjadi; jangan jalani dua kali.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 165,
+      "text": "Satu pagi baru tidak menghapus kemarin, tetapi memberimu ruang untuk melanjutkan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 166,
+      "text": "Kita tidak perlu berlari dari diri sendiri untuk merasa cukup.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 167,
+      "text": "Ada kekuatan dalam menerima bahwa kita tidak bisa mengendalikan hasil.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 168,
+      "text": "Yang bisa kita lakukan dengan baik hari ini sudah cukup untuk hari ini.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 169,
+      "text": "Berhati-hatilah dengan cerita yang terus kamu ceritakan kepada dirimu sendiri.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 170,
+      "text": "Pikiran yang tenang tidak berarti tanpa masalah; ia tahu masalah mana yang perlu didahulukan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 171,
+      "text": "Masa sulit tidak membatalkan semua hal baik yang pernah terjadi.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 172,
+      "text": "Jangan menunggu izin untuk beristirahat.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 173,
+      "text": "Ada hari ketika hal paling produktif adalah memulihkan diri.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 174,
+      "text": "Kita tidak harus membawa suasana kemarin ke pagi ini.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 175,
+      "text": "Tidak semua penundaan adalah hambatan; beberapa memberi waktu bagi keadaan untuk berubah.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 176,
+      "text": "Kadang yang perlu kita lakukan hanya kembali ke dasar: tidur, makan, bernapas, lalu melangkah.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 177,
+      "text": "Sebuah kehidupan yang tenang tetap bisa menjadi kehidupan yang penuh.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 178,
+      "text": "Apa yang membuatmu damai mungkin tidak terlihat mengesankan bagi orang lain, dan itu tidak masalah.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 179,
+      "text": "Jangan biarkan kebutuhan untuk dipahami menghalangi kebutuhan untuk tenang.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 180,
+      "text": "Ada kebijaksanaan dalam memilih mana yang cukup dibiarkan berlalu.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 181,
+      "text": "Kita boleh menikmati proses tanpa terus bertanya kapan hasilnya datang.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 182,
+      "text": "Tidak semua ketidakpastian harus dihilangkan; sebagian cukup ditemani.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 183,
+      "text": "Berhenti membandingkan babmu dengan halaman orang lain.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 184,
+      "text": "Yang kamu rasakan nyata, tetapi tidak selalu harus menjadi arah.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 185,
+      "text": "Sebuah pikiran hanyalah awal percakapan, bukan selalu kesimpulan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 186,
+      "text": "Kita bisa berhenti sejenak tanpa kehilangan momentum yang penting.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 187,
+      "text": "Ada ketenangan dalam melakukan satu hal dengan utuh.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 188,
+      "text": "Tidak semua jalan harus dipahami dari awal.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 189,
+      "text": "Perubahan kecil yang konsisten dapat mengubah suasana hidup secara perlahan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 190,
+      "text": "Jaga perhatianmu; ia adalah tempat hidupmu berlangsung.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 191,
+      "text": "Kadang kita menemukan jawaban setelah berhenti bertanya dengan tergesa-gesa.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 192,
+      "text": "Tidak apa-apa menjadi pemula lagi.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 193,
+      "text": "Yang berlalu tidak harus dilupakan untuk bisa dilepaskan.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 194,
+      "text": "Kamu tidak harus punya hari yang sempurna untuk memiliki momen yang indah.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 195,
+      "text": "Beri dirimu waktu untuk mengejar ketertinggalan dari dirimu sendiri.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 196,
+      "text": "Ada sesuatu yang menenangkan dari mengetahui: cukup satu langkah berikutnya.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 197,
+      "text": "Ketika pikiran penuh, pilih satu hal dan hadir sepenuhnya di sana.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 198,
+      "text": "Mungkin hidup bukan tentang mengendalikan arus, tetapi belajar berenang dengan lebih tenang.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 199,
+      "text": "Tidak semua pintu yang terbuka harus dimasuki.",
+      "author": "Oase Pikiran"
+    },
+    {
+      "id": 200,
+      "text": "Ada kebiasaan yang tampak kecil tetapi menentukan arah.",
+      "author": "Oase Pikiran"
+    }
+  ]
+}

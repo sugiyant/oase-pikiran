@@ -483,7 +483,33 @@ a:hover { text-decoration: none; }
    ============================== */
 .hero {
   max-width: 800px;
-  padding: 80px 0 64px;
+  padding: 64px 32px;
+  border-radius: 24px;
+  transition: background 1.2s ease, color 0.8s ease;
+}
+
+/* Light Theme Time-aware Gradients */
+[data-theme="light"] .hero[data-time="morning"] { background: linear-gradient(135deg, #FFF9E6, #F0FDF4); }
+[data-theme="light"] .hero[data-time="day"] { background: linear-gradient(135deg, #F3F8F5, #EBF5F1); }
+[data-theme="light"] .hero[data-time="evening"] { background: linear-gradient(135deg, #FFF2E6, #F5EBEB); }
+[data-theme="light"] .hero[data-time="night"] { background: linear-gradient(135deg, #EDF2F7, #E2E8F0); }
+
+/* Dark Theme Time-aware Gradients */
+[data-theme="dark"] .hero[data-time="morning"] { background: linear-gradient(135deg, #1C2321, #121A18); }
+[data-theme="dark"] .hero[data-time="day"] { background: linear-gradient(135deg, #151A18, #101413); }
+[data-theme="dark"] .hero[data-time="evening"] { background: linear-gradient(135deg, #231C1A, #141110); }
+[data-theme="dark"] .hero[data-time="night"] { background: linear-gradient(135deg, #0F1316, #090C0E); }
+
+/* Sepia Theme Time-aware Gradients */
+[data-theme="sepia"] .hero[data-time="morning"] { background: linear-gradient(135deg, #FCF5E3, #F4EED8); }
+[data-theme="sepia"] .hero[data-time="day"] { background: linear-gradient(135deg, #FAF2E5, #F3EBDD); }
+[data-theme="sepia"] .hero[data-time="evening"] { background: linear-gradient(135deg, #F9EADA, #ECDCCD); }
+[data-theme="sepia"] .hero[data-time="night"] { background: linear-gradient(135deg, #E8DCC4, #DCD0B8); }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero {
+    transition: none !important;
+  }
 }
 .eyebrow {
   font-size: 0.75rem;
@@ -848,7 +874,7 @@ h3 {
     padding-bottom: 110px; /* Jaga jarak bottom nav */
   }
 
-  .hero { padding: 32px 0 24px; }
+  .hero { padding: 32px 20px 24px; border-radius: 16px; }
   h1 { font-size: 1.75rem; }
   .section-head { flex-direction: column; align-items: flex-start; gap: 8px; }
   .grid { grid-template-columns: 1fr; gap: 12px; }
