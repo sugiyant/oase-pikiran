@@ -418,6 +418,9 @@ a:hover { text-decoration: none; }
   background-color: var(--md-surface-variant, rgba(0,0,0,0.08));
 }
 .md3-desktop-nav { display: flex; gap: 4px; flex-wrap: nowrap; }
+@media (max-width: 768px) {
+  .md3-desktop-nav { display: none; }
+}
 .md3-desktop-nav a {
   padding: 8px 16px;
   border-radius: 20px;
@@ -836,6 +839,7 @@ h3 {
    ============================== */
 @media (max-width: 768px) {
   .desktop-prefs { display: none; }
+  .md3-desktop-nav { display: none; }
   .md3-bottom-nav { display: flex; }
   .md3-bottom-sheet, .md3-sheet-overlay { display: block; pointer-events: none; }
   .md3-bottom-sheet.open, .md3-sheet-overlay.open { pointer-events: all; }

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'oase-pikiran-v3';
+const CACHE_NAME = 'oase-pikiran-v4';
 const ASSETS = [
   '/',
   '/explore/',
