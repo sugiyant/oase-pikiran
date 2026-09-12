@@ -32,6 +32,14 @@ const quotes = quotesData.quotes;
     <a href="/explore/" class="daily-quote-link">Baca satu menit →</a>
   </section>
 
+  <section class="section oase-pick-section">
+    <h3 class="oase-pick-title">Tidak tahu mau membaca apa?</h3>
+    <p class="oase-pick-subtitle">Biarkan Oase memilihkan sesuatu untukmu.</p>
+    <a href="/api/random" class="oase-pick-button" id="oase-pick-btn">
+      <span class="button-label">Biarkan Oase Memilih →</span>
+    </a>
+  </section>
+
   <script is:inline define:vars={{ quotes }}>
   (function() {
     function getDailyQuoteIndex(dateStr) {
@@ -68,6 +76,18 @@ const quotes = quotesData.quotes;
     var quoteText = document.getElementById("daily-quote-text");
     if (quoteText) {
       quoteText.textContent = getDailyQuote();
+    }
+
+    var pickBtn = document.getElementById("oase-pick-btn");
+    if (pickBtn) {
+      pickBtn.addEventListener("click", function() {
+        pickBtn.setAttribute("aria-busy", "true");
+        pickBtn.classList.add("is-picking");
+        var label = pickBtn.querySelector(".button-label");
+        if (label) {
+          label.textContent = "Oase sedang memilih...";
+        }
+      });
     }
   })();
   </script>
@@ -109,8 +129,59 @@ const quotes = quotesData.quotes;
       opacity: 0.8;
     }
 
+    .oase-pick-section {
+      text-align: center;
+      padding: 64px 32px;
+      max-width: 800px;
+      margin: 0 auto;
+      border-top: 1px solid var(--md-outline-variant);
+    }
+
+    .oase-pick-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 0 0 8px;
+      color: var(--md-on-surface);
+      letter-spacing: -0.01em;
+    }
+
+    .oase-pick-subtitle {
+      font-size: 1rem;
+      color: var(--md-on-surface-variant);
+      margin: 0 0 24px;
+    }
+
+    .oase-pick-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 28px;
+      border-radius: 100px;
+      background: var(--md-primary-container);
+      color: var(--md-on-primary-container);
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: opacity 180ms ease, transform 180ms ease;
+      text-decoration: none;
+    }
+
+    .oase-pick-button:hover {
+      opacity: 0.9;
+    }
+
+    .oase-pick-button.is-picking {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .oase-pick-button {
+        transition: none;
+      }
+    }
+
     @media (max-width: 768px) {
-      .daily-quote-section {
+      .daily-quote-section, .oase-pick-section {
         padding: 40px 20px;
       }
       .daily-quote {
