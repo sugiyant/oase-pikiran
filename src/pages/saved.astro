@@ -1,0 +1,32 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout title="Artikel Tersimpan — Oase Pikiran">
+  <article class="prose">
+    <h1>🔖 Artikel Tersimpan</h1>
+    <div id="saved-list">Memuat...</div>
+  </article>
+
+  <script is:inline>
+    const savedList = document.getElementById('saved-list');
+    const getBookmarks = () => JSON.parse(localStorage.getItem('oase_bookmarks') || '[]');
+    
+    async function loadBookmarks() {
+        const slugs = getBookmarks();
+        if (slugs.length === 0) {
+            savedList.innerHTML = '<p>Belum ada artikel yang disimpan.</p>';
+            return;
+        }
+        
+        // Fetch artikel berdasarkan slug
+        const res = await fetch('/api/get-articles');
+        const allArticles = await res.json();
+        const saved = allArticles.filter(a => slugs.includes(a.slug));
+        
+        savedList.innerHTML = saved.length > 0 ? 
+            '<ul>' + saved.map(a => `<li><a href="/articles/${a.slug}">${a.title}</a></li>`).join('') + '</ul>' :
+            '<p>Belum ada artikel yang disimpan.</p>';
+    }
+    loadBookmarks();
+  </script>
+</BaseLayout>

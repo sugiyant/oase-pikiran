@@ -66,7 +66,7 @@ async function run() {
   let generated = 0;
   let attempts = 0;
 
-  while (generated < 50 && attempts < 150) {
+  while (generated < 133 && attempts < 1500) {
     attempts++;
     
     // Sort categories by current count (ascending) to focus on the ones with fewest articles
@@ -77,11 +77,12 @@ async function run() {
     const pool = sortedCats.slice(0, 5);
     const cat = pool[Math.floor(Math.random() * pool.length)];
 
-    console.log(`\n[Article ${generated + 1}/50] (Attempt ${attempts}) targeting category: ${cat} (current count: ${counts[cat]})`);
+    console.log(`\n[Article ${generated + 1}/250] (Attempt ${attempts}) targeting category: ${cat} (current count: ${counts[cat]})`);
 
     try {
       const idea = await generateJSON(`
         Generate 1 unique and highly constructive "Mental Nutrition" article idea for category: ${cat}.
+        The topic should be deep, analytical, and timeless.
         Strictly unique topic, no duplicates.
         Return JSON: { title, description, angle }.
       `);
@@ -97,10 +98,26 @@ async function run() {
       }
 
       console.log(`Writing article: "${idea.title}"...`);
-      const article = await generateText(`Write a "Mental Nutrition" article in Bahasa Indonesia. Title: ${idea.title}. Category: ${cat}. Angle: ${idea.angle}. Length: 750-900 words. Use Markdown. Reflective question at the end.`, { temperature: .7 });
+      const article = await generateText(`Write a deep "Mental Nutrition" article in Bahasa Indonesia. 
+      Title: ${idea.title}. 
+      Category: ${cat}. 
+      Angle: ${idea.angle}. 
+      Length: MINIMUM 1000 words. 
+      Structure: Introduction, Deep Analysis (3-4 sections), Practical Application, Conclusion.
+      Tone: Reflective, wise, and highly academic but accessible.
+      Use Markdown. Reflective question at the end.`, { temperature: .7 });
+
+      const count = article.split(/\s+/).length;
+      if (count < 950) {
+        console.log(`✗ [REJECTED] Word count too low: ${count}`);
+        continue;
+      }
 
       // QUALITY GATE check
-      const review = await generateJSON(`Review article against: factuality, depth, constructive_impact, and pure Indonesian language (no foreign diacritics/words). Return JSON: { publish: bool, score: 0-10, reason: string }. ARTICLE: ${article}`);
+      const review = await generateJSON(`Review article against: factuality, depth, constructive_impact, and pure Indonesian language. 
+      Must be > 950 words.
+      Return JSON: { publish: bool, score: 0-10, reason: string }. 
+      ARTICLE: ${article}`);
 
       if (!review.publish || review.score < 8) {
         console.log(`✗ [REJECTED by Quality Gate] Score: ${review.score}/10, Reason: ${review.reason}`);
@@ -123,7 +140,7 @@ async function run() {
       existingTitles.push(idea.title);
       counts[cat]++;
       generated++;
-      console.log(`✓ [SUCCESS] ${generated}/50: "${idea.title}" published under category: ${cat}.`);
+      console.log(`✓ [SUCCESS] ${generated}/250: "${idea.title}" published under category: ${cat}.`);
 
       // Sleep 3 seconds between requests to maintain low network/cpu stress
       await new Promise(r => setTimeout(r, 3000));
