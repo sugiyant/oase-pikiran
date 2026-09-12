@@ -88,7 +88,21 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       console.error('Failed to load articles:', e);
     } finally {
       loading.style.display = 'none';
-      renderResults(allArticles);
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialQuery = urlParams.get('q');
+      if (initialQuery) {
+        searchInput.value = initialQuery;
+        const q = initialQuery.toLowerCase().trim();
+        const filtered = allArticles.filter(a => {
+          const titleMatch = (a.title || '').toLowerCase().includes(q);
+          const contentMatch = (a.content || '').toLowerCase().includes(q);
+          const categoryMatch = (a.category || '').toLowerCase().includes(q);
+          return titleMatch || contentMatch || categoryMatch;
+        });
+        renderResults(filtered);
+      } else {
+        renderResults(allArticles);
+      }
     }
   }
 
