@@ -38,7 +38,10 @@ const currentPath = Astro.url.pathname;
     <div class="md3-top-bar-content" id="normal-header-content">
       <a class="md3-brand" href="/">Oase Pikiran</a>
       <nav class="md3-desktop-nav">
+        <a href="/" class:list={[{"active": currentPath === "/"}]}>Beranda</a>
+        <a href="/explore/" class:list={[{"active": currentPath.startsWith("/explore")}]}>Jelajah</a>
         <a href="/archive/" class:list={[{"active": currentPath.startsWith("/archive")}]}>Arsip</a>
+        <a href="/api/random">Acak</a>
         <a href="/about/" class:list={[{"active": currentPath.startsWith("/about")}]}>Tentang</a>
       </nav>
       <div style="display: flex; align-items: center; gap: 8px;">
