@@ -53,7 +53,9 @@ const htmlContent = marked.parse(sanitizedContent);
        ))}
     </footer>
 
-  <script is:inline>
+  <script type="module">
+    import { getAnonId, addBookmark, removeBookmark, isBookmarked } from '/js/bookmark-db.js';
+    
     window.shareArticle = async () => {
         if (navigator.share) {
             try {
@@ -68,24 +70,62 @@ const htmlContent = marked.parse(sanitizedContent);
         }
     };
     
-    // Bookmark Logic
+    // Bookmark Logic (IndexedDB-based)
     const slug = "${slug}";
     const btn = document.getElementById('bookmark-btn');
-    const getBookmarks = () => JSON.parse(localStorage.getItem('oase_bookmarks') || '[]');
-    const updateBtn = () => {
-        const bookmarks = getBookmarks();
-        btn.innerText = bookmarks.includes(slug) ? '🔖 Tersimpan' : '🔖 Simpan';
-    };
-    window.toggleBookmark = () => {
-        let bookmarks = getBookmarks();
-        if (bookmarks.includes(slug)) {
-            bookmarks = bookmarks.filter(s => s !== slug);
+    let bookmarked = false;
+    
+    async function updateBtn() {
+        bookmarked = await isBookmarked(slug);
+        btn.innerText = bookmarked ? '🔖 Tersimpan' : '🔖 Simpan';
+    }
+    
+    window.toggleBookmark = async () => {
+        if (bookmarked) {
+            await removeBookmark(slug);
         } else {
-            bookmarks.push(slug);
+            await addBookmark(slug);
+            // Show recovery banner if first bookmark
+            showRecoveryBannerIfNeeded();
         }
-        localStorage.setItem('oase_bookmarks', JSON.stringify(bookmarks));
-        updateBtn();
+        await updateBtn();
     };
+    
+    // Recovery banner
+    async function showRecoveryBannerIfNeeded() {
+        const shown = sessionStorage.getItem('recovery-banner-shown');
+        if (shown) return;
+        
+        const { getAnonId } = await import('/js/bookmark-db.js');
+        const anonId = await getAnonId();
+        
+        // Check if recovery code already exists
+        try {
+            const res = await fetch('/api/recovery-code', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ anon_id: anonId })
+            });
+            const data = await res.json();
+            if (data.success && data.code) {
+                const banner = document.createElement('div');
+                banner.id = 'recovery-banner';
+                banner.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--md-surface-container);border:1px solid var(--md-outline-variant);border-radius:16px;padding:16px 20px;max-width:400px;width:calc(100% - 32px);z-index:1500;box-shadow:0 4px 12px rgba(0,0,0,0.15);font-size:0.875rem;';
+                banner.innerHTML = `
+                    <p style="margin:0 0 8px;font-weight:600;">🔐 Simpan kode ini</p>
+                    <p style="margin:0 0 8px;color:var(--md-on-surface-variant);">Supaya bookmark tidak hilang kalau ganti HP atau hapus data browser:</p>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <code style="font-size:1.125rem;font-weight:700;letter-spacing:0.1em;background:var(--md-surface);padding:6px 12px;border-radius:8px;">${data.code}</code>
+                        <button onclick="navigator.clipboard.writeText('${data.code}').then(()=>this.textContent='✓ Tersalin')" style="border:none;background:var(--md-primary);color:var(--md-on-primary);padding:6px 12px;border-radius:8px;font-size:0.8125rem;font-weight:600;cursor:pointer;">Salin</button>
+                    </div>
+                    <button onclick="document.getElementById('recovery-banner').remove()" style="border:none;background:none;color:var(--md-on-surface-variant);font-size:0.75rem;margin-top:8px;cursor:pointer;padding:0;">Tutup</button>
+                `;
+                document.body.appendChild(banner);
+                sessionStorage.setItem('recovery-banner-shown', '1');
+            }
+        } catch (e) {}
+    }
+    
     updateBtn();
     // TOC generation logic
     const headers = document.querySelectorAll('#article-text-content h2, #article-text-content h3');
