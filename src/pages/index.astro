@@ -4,6 +4,9 @@ import quotesData from "../data/quotes.json";
 
 export const prerender = false;
 
+// Set Cloudflare Caching Headers for Edge (1 minute browser, 10 minutes CDN)
+Astro.response.headers.set("Cache-Control", "public, max-age=60, s-maxage=600");
+
 const db = Astro.locals?.runtime?.env?.DB;
 let articles = [];
 

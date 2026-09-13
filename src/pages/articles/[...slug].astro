@@ -4,6 +4,9 @@ import { marked } from "marked";
 
 export const prerender = false;
 
+// Cache individual articles heavily at the Edge (5 minutes browser, 1 hour CDN)
+Astro.response.headers.set("Cache-Control", "public, max-age=300, s-maxage=3600");
+
 const { slug } = Astro.params;
 const db = Astro.locals?.runtime?.env?.DB;
 

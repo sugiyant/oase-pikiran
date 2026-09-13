@@ -7,5 +7,9 @@ export default defineConfig({
   output: "server",
   adapter: cloudflare(),
   integrations: [sitemap()],
-  build: { format: "directory" }
+  build: { format: "directory" },
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: "hover"
+  }
 });
