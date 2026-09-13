@@ -101,10 +101,10 @@ const htmlContent = marked.parse(sanitizedContent);
         
         // Check if recovery code already exists
         try {
-            const res = await fetch('/api/recovery-code', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ anon_id: anonId })
+            const res = await fetch('/api/recovery-code/', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ anon_id: anonId })
             });
             const data = await res.json();
             if (data.success && data.code) {

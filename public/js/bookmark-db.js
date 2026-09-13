@@ -130,13 +130,13 @@ async function processQueue() {
     for (const item of items) {
       try {
         if (item.type === 'add') {
-          await fetch('/api/bookmarks', {
+          await fetch('/api/bookmarks/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ anon_id: item.anon_id, article_id: item.article_id })
           });
         } else if (item.type === 'remove') {
-          await fetch('/api/bookmarks', {
+          await fetch('/api/bookmarks/', {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ anon_id: item.anon_id, article_id: item.article_id })
