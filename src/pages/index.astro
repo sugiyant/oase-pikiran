@@ -1,214 +1,327 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import quotesData from "../data/quotes.json";
+import articlesManifest from "../data/articles-manifest.json";
 
-export const prerender = false;
+export const prerender = true;
 
-// Set Cloudflare Caching Headers for Edge (1 minute browser, 10 minutes CDN)
-Astro.response.headers.set("Cache-Control", "public, max-age=60, s-maxage=600");
-
-const db = Astro.locals?.runtime?.env?.DB;
-let articles = [];
-
-if (db) {
-  const { results } = await db.prepare("SELECT * FROM articles WHERE status = 'published' ORDER BY published_at DESC").all();
-  articles = results;
-}
+const K = 6;
+const ARTICLES = [...articlesManifest].sort((a, b) =>
+  String(a.slug).localeCompare(String(b.slug))
+);
+const N = ARTICLES.length;
+const dayIndex = Math.floor(Date.now() / 86400000);
+const startIdx = (dayIndex * K) % N;
+const picked = Array.from(
+  { length: Math.min(K, N) },
+  (_, i) => ARTICLES[(startIdx + i) % N]
+);
 
 const quotes = quotesData.quotes;
+const dateStr = new Date().toISOString().slice(0, 10);
+function hashString(s) {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) {
+    h = ((h << 5) - h) + s.charCodeAt(i);
+    h |= 0;
+  }
+  return Math.abs(h);
+}
+const dailyQuote = quotes[hashString(dateStr) % quotes.length].text;
+
+function meta(a) {
+  const parts = [];
+  if (a.category) parts.push(a.category);
+  if (a.reading_time) parts.push(`${a.reading_time} menit`);
+  return parts.join(" · ");
+}
+function shortMeta(a) {
+  if (a.reading_time) return `${a.reading_time}m`;
+  if (a.category) return a.category;
+  return "";
+}
 ---
 
 <BaseLayout title="Oase Pikiran" description="Makanan untuk pikiran.">
-  <section class="section">
-    <div class="hero" id="hero">
-      <p class="eyebrow">MENTAL NUTRITION</p>
-      <h1>Makanan untuk Pikiran.</h1>
-      <p class="lead">Satu unit perspektif baru setiap hari. Saring kebisingan, tumbuhkan kejernihan dan kedamaian pikiran.</p>
-      <a href="/explore/" class="primary">Mulai Membaca →</a>
-    </div>
+
+  <section class="hero" id="hero">
+    <p class="eyebrow">MENTAL NUTRITION</p>
+    <h1>Makanan untuk Pikiran.</h1>
+    <p class="lead">
+      Satu unit perspektif baru setiap hari. Saring kebisingan,
+      tumbuhkan kejernihan dan kedamaian pikiran.
+    </p>
+    <a href="/explore/" class="cta-primary">Mulai Membaca →</a>
   </section>
 
-  <section class="section daily-quote-section" id="daily-quote-section">
-    <p class="eyebrow" style="margin-bottom: 24px;">✦ SEKILAS HARI INI</p>
-    <blockquote class="daily-quote" id="daily-quote-text"></blockquote>
-    <p class="daily-quote-attribution">— Oase Pikiran</p>
-    <a href="/explore/" class="daily-quote-link">Baca satu menit →</a>
-  </section>
-
-  <section class="section oase-pick-section">
-    <h3 class="oase-pick-title">Tidak tahu mau membaca apa?</h3>
-    <p class="oase-pick-subtitle">Biarkan Oase memilihkan sesuatu untukmu.</p>
-    <a href="/api/random" class="oase-pick-button" id="oase-pick-btn">
-      <span class="button-label">Biarkan Oase Memilih →</span>
+  <section class="sekilas">
+    <p class="eyebrow">✦ SEKILAS HARI INI</p>
+    <blockquote class="quote" id="daily-quote-text">{dailyQuote}</blockquote>
+    <p class="attribution">— Oase Pikiran</p>
+    <div class="divider" aria-hidden="true">· · ·</div>
+    <p class="picker-prompt">Tidak tahu mau baca apa?</p>
+    <a href="/api/random" class="cta-tonal" id="oase-pick-btn">
+      <span class="button-label">🎲 Biarkan Oase Memilih →</span>
     </a>
   </section>
 
-  <script is:inline define:vars={{ quotes }}>
-  (function() {
-    function getDailyQuoteIndex(dateStr) {
-      var hash = 0;
-      for (var i = 0; i < dateStr.length; i++) {
-        hash = ((hash << 5) - hash) + dateStr.charCodeAt(i);
-        hash |= 0;
+  <section class="pilihan">
+    <header class="pilihan-head">
+      <h2>Pilihan Hari Ini</h2>
+      <span class="countdown" id="rotation-countdown" aria-live="polite">⟳ …</span>
+    </header>
+
+    <div class="pilihan-body" id="pilihan-body">
+      {picked[0] && (
+        <article class="featured" data-slug={picked[0].slug}>
+          <span class="num">01</span>
+          <h3 class="featured-title">
+            <a href={`/articles/${picked[0].slug}`}>{picked[0].title}</a>
+          </h3>
+          <p class="featured-excerpt">{picked[0].description}</p>
+          <p class="meta">{meta(picked[0])}</p>
+        </article>
+      )}
+
+      <ol class="list" start="2">
+        {picked.slice(1).map((a, i) => (
+          <li class="list-item" data-slug={a.slug}>
+            <span class="num">{String(i + 2).padStart(2, "0")}</span>
+            <a href={`/articles/${a.slug}`} class="list-title">{a.title}</a>
+            <span class="list-meta">{shortMeta(a)}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <a href="/archive/" class="archive-link">Lihat semua arsip →</a>
+  </section>
+
+  <script is:inline>
+  (function () {
+    "use strict";
+    var cd = document.getElementById("rotation-countdown");
+    if (cd) {
+      var tick = function () {
+        var now = Date.now();
+        var currentUtcDay = Math.floor(now / 86400000);
+        var nextUtcMidnight = (currentUtcDay + 1) * 86400000;
+        var diff = nextUtcMidnight - now;
+        if (diff <= 0) { cd.textContent = "⟳ memperbarui…"; return; }
+        var h = Math.floor(diff / 3600000);
+        var m = Math.floor((diff % 3600000) / 60000);
+        cd.textContent = "⟳ berganti " + h + "j " + m + "m lagi";
+      };
+      tick();
+      setInterval(tick, 60000);
+    }
+
+    var STORAGE_KEY = "oase-pikiran:list-order:v1";
+    var listEl = document.querySelector(".list");
+    if (!listEl) return;
+    var currentDay = Math.floor(Date.now() / 86400000);
+
+    function readOrder() {
+      try {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return null;
+        var parsed = JSON.parse(raw);
+        if (parsed.day !== currentDay) return null;
+        return parsed.order;
+      } catch (e) { return null; }
+    }
+    function saveOrder(order) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ day: currentDay, order: order }));
+      } catch (e) {}
+    }
+    function shuffle(arr) {
+      var a = arr.slice();
+      for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
       }
-      return Math.abs(hash) % quotes.length;
+      return a;
     }
 
-    function getDailyQuote() {
-      var now = new Date();
-      var year = now.getFullYear();
-      var month = now.getMonth() + 1;
-      var day = now.getDate();
-      var dateStr = year + "-" + month + "-" + day;
-      return quotes[getDailyQuoteIndex(dateStr)].text;
-    }
+    var items = Array.prototype.slice.call(listEl.querySelectorAll(".list-item"));
+    if (items.length < 2) return;
+    var slugs = items.map(function (el) { return el.getAttribute("data-slug"); });
+    var order = readOrder();
+    var validOrder = order && order.length === slugs.length && order.every(function (s) { return slugs.indexOf(s) !== -1; });
+    if (!validOrder) { order = shuffle(slugs); saveOrder(order); }
 
-    function getTimeTheme() {
-      var hour = new Date().getHours();
-      if (hour >= 5 && hour < 11) return "morning";
-      if (hour >= 11 && hour < 16) return "day";
-      if (hour >= 16 && hour < 19) return "evening";
-      return "night";
-    }
-
-    var hero = document.getElementById("hero");
-    if (hero) {
-      hero.setAttribute("data-time", getTimeTheme());
-    }
-
-    var quoteText = document.getElementById("daily-quote-text");
-    if (quoteText) {
-      quoteText.textContent = getDailyQuote();
-    }
+    var map = {};
+    items.forEach(function (el) { map[el.getAttribute("data-slug")] = el; });
+    order.forEach(function (slug, idx) {
+      var el = map[slug];
+      if (!el) return;
+      var numEl = el.querySelector(".num");
+      if (numEl) { var n = idx + 2; numEl.textContent = (n < 10 ? "0" : "") + n; }
+      listEl.appendChild(el);
+    });
 
     var pickBtn = document.getElementById("oase-pick-btn");
     if (pickBtn) {
-      pickBtn.addEventListener("click", function() {
+      pickBtn.addEventListener("click", function () {
         pickBtn.setAttribute("aria-busy", "true");
         pickBtn.classList.add("is-picking");
         var label = pickBtn.querySelector(".button-label");
-        if (label) {
-          label.textContent = "Oase sedang memilih...";
-        }
+        if (label) label.textContent = "Oase sedang memilih…";
       });
     }
   })();
   </script>
 
   <style>
-    .daily-quote-section {
-      text-align: center;
-      padding: 64px 32px;
-      max-width: 800px;
-      margin: 0 auto;
+    :root {
+      --font-display: "Fraunces", "Iowan Old Style", "Charter", Georgia, serif;
+    }
+    .hero {
+      padding: clamp(80px, 15vh, 160px) 24px clamp(60px, 10vh, 100px);
+      max-width: 900px; margin: 0 auto;
+    }
+    .hero .eyebrow {
+      font-size: 0.75rem; letter-spacing: 0.22em;
+      color: var(--md-on-surface-variant); margin: 0 0 24px; font-weight: 500;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6.5vw, 4.5rem);
+      line-height: 1.04; letter-spacing: -0.03em;
+      margin: 0 0 24px; font-weight: 600; color: var(--md-on-surface);
+    }
+    .hero .lead {
+      font-size: clamp(1rem, 1.6vw, 1.2rem); line-height: 1.6;
+      color: var(--md-on-surface-variant); max-width: 560px; margin: 0 0 40px;
+    }
+    .cta-primary {
+      display: inline-block; padding: 14px 32px;
+      background: var(--md-primary); color: var(--md-on-primary);
+      border-radius: 100px; font-weight: 600; font-size: 0.95rem;
+      text-decoration: none; transition: opacity 180ms ease;
+    }
+    .cta-primary:hover { opacity: 0.9; }
+
+    .sekilas {
+      padding: clamp(60px, 10vh, 120px) 24px; max-width: 720px;
+      margin: 0 auto; text-align: center;
       border-top: 1px solid var(--md-outline-variant);
     }
-
-    .daily-quote {
-      font-size: 1.75rem;
-      font-weight: 500;
-      line-height: 1.4;
-      margin: 0 0 16px;
-      color: var(--md-on-surface);
-      font-style: italic;
-      letter-spacing: -0.01em;
+    .sekilas .eyebrow {
+      font-size: 0.75rem; letter-spacing: 0.22em;
+      color: var(--md-on-surface-variant); margin: 0 0 32px; font-weight: 500;
     }
-
-    .daily-quote-attribution {
-      font-size: 0.875rem;
-      color: var(--md-on-surface-variant);
-      margin: 0 0 32px;
-      letter-spacing: 0.02em;
+    .quote {
+      font-family: var(--font-display); font-style: italic;
+      font-size: clamp(1.4rem, 2.6vw, 2rem); line-height: 1.35;
+      letter-spacing: -0.01em; margin: 0 0 16px; color: var(--md-on-surface);
     }
-
-    .daily-quote-link {
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--md-primary);
-      transition: opacity 0.2s;
+    .attribution {
+      font-size: 0.875rem; color: var(--md-on-surface-variant);
+      letter-spacing: 0.02em; margin: 0 0 8px;
     }
-
-    .daily-quote-link:hover {
-      opacity: 0.8;
+    .divider {
+      color: var(--md-outline); font-size: 1.25rem;
+      letter-spacing: 0.5em; margin: 36px 0; user-select: none;
     }
-
-    .oase-pick-section {
-      text-align: center;
-      padding: 64px 32px;
-      max-width: 800px;
-      margin: 0 auto;
-      border-top: 1px solid var(--md-outline-variant);
+    .picker-prompt {
+      font-size: 0.95rem; color: var(--md-on-surface-variant); margin: 0 0 20px;
     }
-
-    .oase-pick-title {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin: 0 0 8px;
-      color: var(--md-on-surface);
-      letter-spacing: -0.01em;
-    }
-
-    .oase-pick-subtitle {
-      font-size: 1rem;
-      color: var(--md-on-surface-variant);
-      margin: 0 0 24px;
-    }
-
-    .oase-pick-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px 28px;
-      border-radius: 100px;
-      background: var(--md-primary-container);
-      color: var(--md-on-primary-container);
-      font-size: 0.95rem;
-      font-weight: 600;
+    .cta-tonal {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 26px; border-radius: 100px;
+      background: var(--md-secondary-container);
+      color: var(--md-on-secondary-container);
+      font-weight: 600; font-size: 0.95rem; text-decoration: none;
       transition: opacity 180ms ease, transform 180ms ease;
-      text-decoration: none;
     }
+    .cta-tonal:hover { opacity: 0.9; }
+    .cta-tonal.is-picking { opacity: 0.7; pointer-events: none; }
 
-    .oase-pick-button:hover {
-      opacity: 0.9;
+    .pilihan {
+      padding: clamp(60px, 10vh, 120px) 24px clamp(80px, 12vh, 140px);
+      max-width: 900px; margin: 0 auto;
+      border-top: 1px solid var(--md-outline-variant);
     }
-
-    .oase-pick-button.is-picking {
-      opacity: 0.7;
-      pointer-events: none;
+    .pilihan-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: 16px; margin: 0 0 48px; padding: 0 0 16px;
+      border-bottom: 1px solid var(--md-outline-variant);
     }
+    .pilihan-head h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 600; letter-spacing: -0.02em; margin: 0;
+      color: var(--md-on-surface);
+    }
+    .countdown {
+      font-size: 0.8rem; color: var(--md-on-surface-variant);
+      font-variant-numeric: tabular-nums; white-space: nowrap;
+    }
+    .featured { margin: 0 0 56px; }
+    .featured .num {
+      display: block; font-family: var(--font-display); font-size: 0.875rem;
+      letter-spacing: 0.14em; color: var(--md-primary);
+      margin: 0 0 12px; font-weight: 600;
+    }
+    .featured-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2.25rem); line-height: 1.18;
+      letter-spacing: -0.02em; margin: 0 0 16px; font-weight: 600;
+    }
+    .featured-title a {
+      color: var(--md-on-surface); text-decoration: none;
+      background-image: linear-gradient(currentColor, currentColor);
+      background-size: 0% 1px; background-repeat: no-repeat;
+      background-position: 0 100%; transition: background-size 300ms ease;
+    }
+    .featured-title a:hover { background-size: 100% 1px; }
+    .featured-excerpt {
+      font-size: 1rem; line-height: 1.6;
+      color: var(--md-on-surface-variant); margin: 0 0 12px; max-width: 620px;
+    }
+    .featured .meta {
+      font-size: 0.8rem; color: var(--md-on-surface-variant);
+      letter-spacing: 0.02em; margin: 0;
+    }
+    .list {
+      list-style: none; padding: 0; margin: 0;
+      border-top: 1px solid var(--md-outline-variant);
+    }
+    .list-item {
+      display: grid; grid-template-columns: 40px 1fr auto;
+      gap: 16px; align-items: baseline; padding: 20px 0;
+      border-bottom: 1px solid var(--md-outline-variant);
+    }
+    .list-item .num {
+      font-family: var(--font-display); font-size: 0.875rem;
+      letter-spacing: 0.14em; color: var(--md-on-surface-variant); font-weight: 600;
+    }
+    .list-title {
+      font-size: clamp(1rem, 1.5vw, 1.1rem); font-weight: 500;
+      line-height: 1.4; color: var(--md-on-surface); text-decoration: none;
+      transition: opacity 150ms ease;
+    }
+    .list-title:hover { opacity: 0.7; }
+    .list-meta {
+      font-size: 0.8rem; color: var(--md-on-surface-variant);
+      font-variant-numeric: tabular-nums; white-space: nowrap;
+    }
+    .archive-link {
+      display: inline-block; margin: 40px 0 0; font-size: 0.9rem;
+      font-weight: 500; color: var(--md-primary); text-decoration: none;
+    }
+    .archive-link:hover { text-decoration: underline; }
 
     @media (prefers-reduced-motion: reduce) {
-      .oase-pick-button {
-        transition: none;
-      }
+      .cta-primary, .cta-tonal, .featured-title a { transition: none; }
     }
-
-    @media (max-width: 768px) {
-      .daily-quote-section, .oase-pick-section {
-        padding: 40px 20px;
-      }
-      .daily-quote {
-        font-size: 1.35rem;
-      }
+    @media (max-width: 640px) {
+      .pilihan-head { flex-direction: column; align-items: flex-start; gap: 6px; }
+      .list-item { grid-template-columns: 32px 1fr; gap: 12px; }
+      .list-meta { grid-column: 2; font-size: 0.75rem; }
     }
   </style>
 
-  <section class="section">
-    <div class="section-head">
-      <h2>Bacaan Terbaru</h2>
-      <a href="/archive/">Lihat Arsip →</a>
-    </div>
-    <div class="grid">
-      {articles.map(article => (
-        <a href={`/articles/${article.slug}`} class="card">
-          <span class="category">{article.category}</span>
-          <h2>{article.title}</h2>
-          <p>{article.description}</p>
-          <div class="meta" style="display:flex; justify-content:space-between; align-items:center;">
-            <span>{article.views ?? 0} pembaca</span>
-          </div>
-        </a>
-      ))}
-    </div>
-  </section>
 </BaseLayout>
